@@ -1,17 +1,26 @@
 "use client";
 
-import { LockIcon } from 'lucide-react';
+import { Briefcase, Home, LockIcon, LucideIcon, Search, Settings, User, Users } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react'
+import { Icon } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import Link from 'next/link';
+import { setIsSidebarCollapsed } from '@/src/state';
+import { X } from 'lucide-react';
 
 function Sidebar() {
 
     const [showProjects, setShowProjects] = useState(true);
     const [showPriority, setShowPriority] = useState(true);
 
+    const dispatch = useAppDispatch();    // importando o useAppDispatch, que é um useDispatch tipado, para despachar ações para o estado global, que ativará reducers para mudar o estado de alguma parte da aplicação
+    const isSidebarCollapsed = useAppSelector((state) => state.global.isSidebarCollapsed);  // usando o useAppSelector, que é um useSelector tipado, para acessar o estado global e pegar o valor de isSidebarCollapsed
+
     const sidebarClassNames = `fixed flex flex-col h-full justify-between shadow-xl
         transition-all duration-500 ease-in-out h-[100%] z-40 dark:bg-black overflow-y-auto bg-white
-        w-64
+        ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}
     `;
 
   return (
@@ -22,6 +31,11 @@ function Sidebar() {
                 <div className="text-xl font-bold text-gray-800 dark:text-white">
                     Projeej
                 </div>
+                {isSidebarCollapsed ? null : (
+                    <button className="py-3" onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}>
+                        <X className="h-6 w-6 cursor-pointer dark:text-white"/>
+                    </button>
+                )}
             </div>
             {/* TIME SIDEBAR */}
             <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
@@ -35,11 +49,47 @@ function Sidebar() {
                         <p className="text-xs text-gray-500">Privado</p>
                     </div>
                 </div>
-                {/* NAVBAR LINKS */}
+            </div>
+            {/* NAVBAR LINKS */}
+                <nav className="z-10 w-full">
+                    <SidebarLinks href={"/"} icon={Home} label="Home" />
+                    <SidebarLinks href={"/timeline"} icon={Briefcase} label="Timeline" />
+                    <SidebarLinks href={"/pesquisa"} icon={Search} label="Pesquisa" />
+                    <SidebarLinks href={"/configuracoes"} icon={Settings} label="Configurações" />
+                    <SidebarLinks href={"/perfil"} icon={User} label="Perfil" />
+                    <SidebarLinks href={"/usuarios"} icon={Users} label="Usuários" />
+                </nav>
             </div>
         </div>
-    </div>
   )
+}
+
+interface SidebarLinkProps {
+    href: string,                   // cada link tera seu href, seu icone, seu label e se a sidebar está colapsada ou não
+    icon: LucideIcon,
+    label: string;
+    // isCollapsed: boolean;
+}
+
+const SidebarLinks = ({href, icon: Icon, label }: SidebarLinkProps) => {
+    const pathName = usePathname();                                                         // usando o usePathname para pegar o pathname atual, para, posteriormente, dar highlight no link da sidebar que estamos
+    const isActive = pathName === href || (pathName==="/" && href==="/dashboard")           // o isActive vai verificar se estamos na pagina de um link da sidebar (a excecao é a home, que é o dashboard)
+    
+    return (
+        <Link href={href} className="w-full">
+            <div className={
+                `relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${
+                    isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""} justify-start px-8 py-4`
+            }>
+                {isActive && (
+                    <div className="absolute left-0 top-0 h-[100%] w-[5px] bg-blue-200"/>
+                )}
+
+                <Icon className="h-6 w-6 text-gray-800 dark:text-gray-100"/>
+                <span className={`font-medium text-gray-800 dark:text-gray-100`}>{label}</span>
+            </div>
+        </Link>
+    )
 }
 
 export default Sidebar
