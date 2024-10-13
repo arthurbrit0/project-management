@@ -1,6 +1,6 @@
 "use client";
 
-import { Briefcase, Home, LockIcon, LucideIcon, Search, Settings, User, Users } from 'lucide-react';
+import { AlertCircle, AlertOctagon, AlertTriangle, Briefcase, ChevronDown, ChevronUp, Home, Layers3, LockIcon, LucideIcon, Search, Settings, ShieldAlert, User, Users } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react'
 import { Icon } from 'lucide-react';
@@ -59,6 +59,29 @@ function Sidebar() {
                     <SidebarLinks href={"/perfil"} icon={User} label="Perfil" />
                     <SidebarLinks href={"/usuarios"} icon={Users} label="Usuários" />
                 </nav>
+                <button onClick={() => setShowProjects((prev) => !prev)} className="flex w-full items-center justify-between px-8 py-3 text-gray-600">
+                    <span className="">Projetos</span>
+                    {showProjects ? (
+                        <ChevronUp className="h-5 w-5" />
+                    ): <ChevronDown className="h-5 w-5"/>}
+                </button>
+                { /* LISTA DE PROJETOS */ }
+                <button onClick={() => setShowPriority((prev) => !prev)} className="flex w-full items-center justify-between px-8 py-3 text-gray-600">
+                    <span className="">Prioridades</span>
+                    {showPriority ? (
+                        <ChevronUp className="h-5 w-5" />
+                    ): <ChevronDown className="h-5 w-5"/>}
+                </button>
+                {/* LISTA DE PRIORIDADES */}
+                {showPriority && (
+                    <>
+                      <SidebarLinks href={"/prioridade/urgente"} icon={AlertCircle} label="Urgente" />
+                      <SidebarLinks href={"/prioridade/alta"} icon={ShieldAlert} label="Alta" />
+                      <SidebarLinks href={"/prioridade/media"} icon={AlertTriangle} label="Média" />
+                      <SidebarLinks href={"/prioridade/baixa"} icon={AlertOctagon} label="Baixa" />
+                      <SidebarLinks href={"/prioridade/backlog"} icon={Layers3} label="Backlog" />  
+                    </>
+                )}
             </div>
         </div>
   )
