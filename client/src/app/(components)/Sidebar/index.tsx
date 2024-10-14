@@ -105,7 +105,7 @@ const SidebarLinks = ({href, icon: Icon, label }: SidebarLinkProps) => {
                     isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""} justify-start px-8 py-4`
             }>
                 {isActive && (
-                    <div className="absolute left-0 top-0 h-[100%] w-[5px] bg-blue-200"/>
+                    <div className="absolute left-0 top-0 h-[100%] w-[5px] bg-blue-300"/>
                 )}
 
                 <Icon className="h-6 w-6 text-gray-800 dark:text-gray-100"/>
