@@ -83,4 +83,28 @@ export const updateTaskStatus = async (
     } catch (error: any) {
         res.status(500).json({ error: `Erro ao buscar tasks associadas ao projeto.  Erro: ${error}` });
     }
+};
+
+export const getUserTasks = async (
+    req: Request, 
+    res: Response
+): Promise<void> => {
+    const { userId } = req.params;
+    try {
+        const response = await prisma.task.findMany({
+            where: {
+                OR: [
+                    {authorUserId: Number(userId)},
+                    {assignedUserId: Number(userId)}
+                ],
+            },  
+            include: {
+                author: true,       
+                assignee: true,
+            }
+        })
+        res.json(response);
+    } catch (error: any) {
+        res.status(500).json({ error: `Erro ao buscar tasks associadas ao usuario.  Erro: ${error}` });
+    }
 }

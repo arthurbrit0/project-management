@@ -6,10 +6,10 @@ import { formatISO } from 'date-fns';
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    projectId: string;
+    projectId?: string | null;
 }
 
-const ModalNewTask = ({isOpen, onClose, projectId}: Props) => {
+const ModalNewTask = ({isOpen, onClose, projectId = null}: Props) => {
     const [createTask, {isLoading}] = useCreateTaskMutation();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -20,10 +20,11 @@ const ModalNewTask = ({isOpen, onClose, projectId}: Props) => {
     const [dueDate, setDueDate] = useState("");
     const [authorUserId, setAuthorUserId] = useState("");
     const [assignedUserId, setAssignedUserId] = useState("");
+    const [backupProjectId, setBackupProjectId] = useState("");
     
 
     const handleSubmit = async () => {
-        if(!title || !authorUserId ) return;
+        if(!title || !authorUserId || !(projectId !== null || backupProjectId)) return;
 
         let formattedStartDate: string | undefined;
         let formattedDueDate: string | undefined;
@@ -56,12 +57,12 @@ const ModalNewTask = ({isOpen, onClose, projectId}: Props) => {
             dueDate: formattedDueDate,
             authorUserId: parseInt(authorUserId),
             assignedUserId: parseInt(assignedUserId),
-            projectId: Number(projectId)
+            projectId: projectId !== null ? Number(projectId) : Number(backupProjectId)
         })
     }
 
     const isFormValid = () => {
-        return title && authorUserId;
+        return title && authorUserId && !(projectId !== null || backupProjectId);
     }
 
     const selectStyles = `mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none`;
@@ -138,6 +139,15 @@ const ModalNewTask = ({isOpen, onClose, projectId}: Props) => {
                 value={assignedUserId} 
                 onChange={(e) => setAssignedUserId(e.target.value)}
             />
+            { projectId === null && (
+                <input 
+                    type="text" 
+                    className={inputStyles} 
+                    placeholder="Id do Projeto" 
+                    value={backupProjectId} 
+                    onChange={(e) => setBackupProjectId(e.target.value)}
+                />
+            )}
             <button 
                 type="submit" 
                 className="w-full justify-center flex mt-4 px-4 py-2 text-base font-medium bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:opacity-50

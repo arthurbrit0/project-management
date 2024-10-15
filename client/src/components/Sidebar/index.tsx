@@ -59,7 +59,7 @@ function Sidebar() {
                     <SidebarLinks href={"/"} icon={Home} label="Home" />
                     <SidebarLinks href={"/timeline"} icon={Briefcase} label="Timeline" />
                     <SidebarLinks href={"/search"} icon={Search} label="Pesquisa" />
-                    <SidebarLinks href={"/configuracoes"} icon={Settings} label="Configurações" />
+                    <SidebarLinks href={"/settings"} icon={Settings} label="Configurações" />
                     <SidebarLinks href={"/users"} icon={User} label="Usuários" />
                     <SidebarLinks href={"/teams"} icon={Users} label="Times" />
                 </nav>
@@ -82,11 +82,11 @@ function Sidebar() {
                 {/* LISTA DE PRIORIDADES */}
                 {showPriority && (
                     <>
-                      <SidebarLinks href={"/prioridade/urgente"} icon={AlertCircle} label="Urgente" />
-                      <SidebarLinks href={"/prioridade/alta"} icon={ShieldAlert} label="Alta" />
-                      <SidebarLinks href={"/prioridade/media"} icon={AlertTriangle} label="Média" />
-                      <SidebarLinks href={"/prioridade/baixa"} icon={AlertOctagon} label="Baixa" />
-                      <SidebarLinks href={"/prioridade/backlog"} icon={Layers3} label="Backlog" />  
+                      <SidebarLinks href={"/priority/urgent"} icon={AlertCircle} label="Urgente" />
+                      <SidebarLinks href={"/priority/high"} icon={ShieldAlert} label="Alta" />
+                      <SidebarLinks href={"/priority/medium"} icon={AlertTriangle} label="Média" />
+                      <SidebarLinks href={"/priority/low"} icon={AlertOctagon} label="Baixa" />
+                      <SidebarLinks href={"/priority/backlog"} icon={Layers3} label="Backlog" />  
                     </>
                 )}
             </div>

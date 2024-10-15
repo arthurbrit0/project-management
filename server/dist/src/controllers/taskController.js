@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTaskStatus = exports.createTask = exports.getTasks = void 0;
+exports.getUserTasks = exports.updateTaskStatus = exports.createTask = exports.getTasks = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient(); // instanciando o prisma para ter acesso ao bdd
 /* ROTA DE GET PARA TASKS DE UM PROJETO ESPECIFICO */
@@ -89,3 +89,25 @@ const updateTaskStatus = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.updateTaskStatus = updateTaskStatus;
+const getUserTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    try {
+        const response = yield prisma.task.findMany({
+            where: {
+                OR: [
+                    { authorUserId: Number(userId) },
+                    { assignedUserId: Number(userId) }
+                ],
+            },
+            include: {
+                author: true,
+                assignee: true,
+            }
+        });
+        res.json(response);
+    }
+    catch (error) {
+        res.status(500).json({ error: `Erro ao buscar tasks associadas ao usuario.  Erro: ${error}` });
+    }
+});
+exports.getUserTasks = getUserTasks;

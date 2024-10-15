@@ -9,7 +9,7 @@ type Props = {
 
 const TaskCard = ({ task }: Props) => {
   return (
-    <div className={`mb-3 pb-7 rounded p-4 shadow text-md ${ task.priority === "Urgent" ? "bg-rose-900 text-gray-100" :
+    <div className={`w-full mx-auto mb-3 pb-7 rounded p-4 shadow text-md ${ task.priority === "Urgent" ? "bg-rose-900 text-gray-100" :
     task.priority === "High" ? "bg-red-400 text-black" : task.priority === "Medium" ? "bg-yellow-500 text-gray-900" : 
     task.priority === "Low" ? "bg-green-400 text-gray-800" : "bg-blue-800 text-gray-100"}`}>
         <div className="px-4 text-lg bg-gray-100 items-center flex flex-wrap justify-between mb-5 rounded-2xl shadow-lg">
@@ -41,27 +41,27 @@ const TaskCard = ({ task }: Props) => {
         </p>
         <p>
             <strong>Descrição:</strong>{" "} 
-            {task.description || "No description provided"}
+            {task.description || "Nenhuma descrição fornecida"}
         </p>
         <p>
             <strong>Status:</strong> {task.status}
         </p>
         <p>
-            <strong>Tags:</strong> {task.tags || "No tags"}
+            <strong>Tags:</strong> {task.tags || "Não existem tags"}
         </p>
         <p>
             <strong>Data de começo:</strong> {" "}
-            {task.startDate ? format(new Date(task.startDate), "P") : "Not set" }
+            {task.startDate ? format(new Date(task.startDate), "P") : "Não definido" }
         </p>
         <p>
             <strong>Prazo final:</strong> {" "}
-            {task.dueDate ? format(new Date(task.dueDate), "P") : "Not set" }
+            {task.dueDate ? format(new Date(task.dueDate), "P") : "Não definido" }
         </p>
         <p>
-            <strong>Autor:</strong> {task.author ? task.author.username : "Unknown"}
+            <strong>Autor:</strong> {task.author ? task.author.username : "Desconhecido"}
         </p>
         <p>
-            <strong>Atribuído a:</strong> {task.assignee ? task.assignee.username : "Unassigned"}
+            <strong>Atribuído a:</strong> {task.assignee ? task.assignee.username : "Não atribuido"}
         </p>
 
     </div>
