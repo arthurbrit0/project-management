@@ -6,6 +6,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import projectRoutes from "./routes/projectRoutes";
 import taskRoutes from "./routes/taskRoutes";
+import searchRoutes from "./routes/searchRoutes";
 
 console.log("Teste")
 
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {                                            // rota 
 
 app.use('/projects', projectRoutes)
 app.use('/tasks', taskRoutes)
+app.use('/search', searchRoutes)
 
 /* INICIALIZAÇÃO DO SERVIDOR */
 

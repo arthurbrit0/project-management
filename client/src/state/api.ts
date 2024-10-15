@@ -67,6 +67,12 @@ export interface Tasks {
     attachments?: Attachment[];
 }
 
+export interface SearchResults {
+    tasks?: Tasks[];
+    projects?: Project[];
+    users?: User[];
+}
+
 /* criacao de instancia da api */
 
 export const api = createApi({
@@ -111,8 +117,11 @@ export const api = createApi({
                 { type: "Tasks", id: taskId },
             ]
         }),
+        search: build.query<SearchResults, { query: string }>({                     // a função search é uma query que recebe um objeto com a query de busca e retorna um objeto com os resultados da busca
+            query: ({ query }) => `search?query=${query}`,                          // a rota que será acessada para fazer a busca é /search?query=${query}, passando a query que queremos buscar como
+        })                 
     }),
 });
 
 
-export const {useCreateProjectMutation, useGetProjectsQuery, useCreateTaskMutation, useGetTasksQuery, useUpdateTaskStatusMutation} = api;                                                          
+export const {useCreateProjectMutation, useGetProjectsQuery, useCreateTaskMutation, useGetTasksQuery, useUpdateTaskStatusMutation, useSearchQuery} = api;                                                          

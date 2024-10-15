@@ -58,7 +58,7 @@ function Sidebar() {
                 <nav className="z-10 w-full">
                     <SidebarLinks href={"/"} icon={Home} label="Home" />
                     <SidebarLinks href={"/timeline"} icon={Briefcase} label="Timeline" />
-                    <SidebarLinks href={"/pesquisa"} icon={Search} label="Pesquisa" />
+                    <SidebarLinks href={"/search"} icon={Search} label="Pesquisa" />
                     <SidebarLinks href={"/configuracoes"} icon={Settings} label="Configurações" />
                     <SidebarLinks href={"/perfil"} icon={User} label="Perfil" />
                     <SidebarLinks href={"/usuarios"} icon={Users} label="Usuários" />
