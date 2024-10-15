@@ -5,15 +5,19 @@ import Image from 'next/image';
 import React, { useState } from 'react'
 import { Icon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '../../redux';
+import { useAppDispatch, useAppSelector } from '../../app/redux';
 import Link from 'next/link';
 import { setIsSidebarCollapsed } from '@/src/state';
 import { X } from 'lucide-react';
+import { useGetProjectsQuery } from '@/src/state/api';
 
 function Sidebar() {
 
     const [showProjects, setShowProjects] = useState(true);
     const [showPriority, setShowPriority] = useState(true);
+
+    const { data: projects } = useGetProjectsQuery(); // usando o useProjectQuery para pegar os dados dos projetos
+    console.log(projects)
 
     const dispatch = useAppDispatch();    // importando o useAppDispatch, que é um useDispatch tipado, para despachar ações para o estado global, que ativará reducers para mudar o estado de alguma parte da aplicação
     const isSidebarCollapsed = useAppSelector((state) => state.global.isSidebarCollapsed);  // usando o useAppSelector, que é um useSelector tipado, para acessar o estado global e pegar o valor de isSidebarCollapsed
@@ -66,6 +70,9 @@ function Sidebar() {
                     ): <ChevronDown className="h-5 w-5"/>}
                 </button>
                 { /* LISTA DE PROJETOS */ }
+                {showProjects && projects?.map((project) => (
+                    <SidebarLinks key={project.id} href={`/projects/${project.id}`} icon={Briefcase} label={project.name} />
+                ))}
                 <button onClick={() => setShowPriority((prev) => !prev)} className="flex w-full items-center justify-between px-8 py-3 text-gray-600">
                     <span className="">Prioridades</span>
                     {showPriority ? (
