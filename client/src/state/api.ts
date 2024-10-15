@@ -31,6 +31,13 @@ export interface User {
     teamId?: number;
 }
 
+export interface Team {
+    teamId: number;
+    teamName: string;
+    productOwnerUserId?: number;
+    productManagerUserId?: number;
+}
+
 export interface Attachment {
     id: number;
     fileURL: string;
@@ -78,7 +85,7 @@ export interface SearchResults {
 export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),   // definimos uma url base para as requisicoes, que é uma variavel de ambiente
     reducerPath: "api",                                                             // definimos o nome do slice no estado global, e os acessamos com state.api
-    tagTypes: ["Projects", "Tasks", "Users"],                                       // lista de tags que serão usadas nas requisicoes para invalidar/atualizar o cache de acordo com a tag usada na requisicao  
+    tagTypes: ["Projects", "Tasks", "Users","Teams"],                               // lista de tags que serão usadas nas requisicoes para invalidar/atualizar o cache de acordo com a tag usada na requisicao  
     endpoints: (build) => ({                                                        // criando nossos endpoints
         getProjects: build.query<Project[], void>({                                 // a função getProjects recebe como parametro void e retorna uma lista de Projetos                   
             query: () => "projects",                                                // a query é a url que será acessada para pegar os projetos. nesse caso, será /projects
@@ -123,7 +130,11 @@ export const api = createApi({
         getUsers: build.query<User[], void>({
             query: () => "users",
             providesTags: ["Users"],
-        }),                 
+        }),             
+        getTeams: build.query<Team[], void>({
+            query: () => "teams",
+            providesTags: ["Teams"],
+        })   
     }),
 });
 
@@ -136,4 +147,5 @@ export const {
     useUpdateTaskStatusMutation, 
     useSearchQuery,
     useGetUsersQuery,
+    useGetTeamsQuery,
 } = api;                                                          
