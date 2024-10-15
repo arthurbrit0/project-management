@@ -16,8 +16,8 @@ import { setIsDarkMode, setIsSidebarCollapsed } from '@/src/state';
         <div className="flex items-center gap-8">
 
           {!isSidebarCollapsed ? null : (     // botão na navbar para abrir ou fechar a sidebar
-            <button onClick={()=> dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}>
-              <Menu className="h-8 w-8 cursor-pointer dark:text-white"/>
+            <button className="hover:bg-gray-200 hover:rounded hover:p-1 p-1" onClick={()=> dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}>
+              <Menu className="h-7 w-7 cursor-pointer dark:text-white"/>
             </button>
           )}
 

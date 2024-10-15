@@ -17,7 +17,7 @@ const TaskCard = ({ task }: Props) => {
                 Id: {task.id}
             </div>
             <p className="mr-2 text-gray-900">
-                <strong>Priority:</strong> {task.priority}
+                <strong>Prioridade:</strong> {task.priority}
             </p>
         </div>
         {task.attachments && task.attachments.length > 0 && (
@@ -37,10 +37,10 @@ const TaskCard = ({ task }: Props) => {
             </div>
         )}
         <p>
-            <strong>Title:</strong> {task.title}
+            <strong>Título:</strong> {task.title}
         </p>
         <p>
-            <strong>Description:</strong>{" "} 
+            <strong>Descrição:</strong>{" "} 
             {task.description || "No description provided"}
         </p>
         <p>
@@ -50,18 +50,18 @@ const TaskCard = ({ task }: Props) => {
             <strong>Tags:</strong> {task.tags || "No tags"}
         </p>
         <p>
-            <strong>Start Date:</strong> {" "}
+            <strong>Data de começo:</strong> {" "}
             {task.startDate ? format(new Date(task.startDate), "P") : "Not set" }
         </p>
         <p>
-            <strong>Due Date:</strong> {" "}
+            <strong>Prazo final:</strong> {" "}
             {task.dueDate ? format(new Date(task.dueDate), "P") : "Not set" }
         </p>
         <p>
-            <strong>Author:</strong> {task.author ? task.author.username : "Unknown"}
+            <strong>Autor:</strong> {task.author ? task.author.username : "Unknown"}
         </p>
         <p>
-            <strong>Assignee:</strong> {task.assignee ? task.assignee.username : "Unassigned"}
+            <strong>Atribuído a:</strong> {task.assignee ? task.assignee.username : "Unassigned"}
         </p>
 
     </div>

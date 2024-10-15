@@ -36,7 +36,7 @@ function Sidebar() {
                     Projeej
                 </div>
                 {isSidebarCollapsed ? null : (
-                    <button className="py-3" onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}>
+                    <button className="py-3 hover:scale-110 transition-all duration-200" onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}>
                         <X className="h-6 w-6 cursor-pointer dark:text-white"/>
                     </button>
                 )}
