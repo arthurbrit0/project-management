@@ -38,20 +38,29 @@ exports.getTasks = getTasks;
 const createTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, description, status, priority, tags, startDate, dueDate, points, projectId, authorUserId, assignedUserId } = req.body;
     try {
+        const data = {
+            title,
+            projectId: Number(projectId),
+            authorUserId: Number(authorUserId),
+        };
+        if (description)
+            data.description = description;
+        if (status)
+            data.status = status;
+        if (priority)
+            data.priority = priority;
+        if (tags)
+            data.tags = tags;
+        if (startDate)
+            data.startDate = new Date(startDate);
+        if (dueDate)
+            data.dueDate = new Date(dueDate);
+        if (points !== undefined)
+            data.points = Number(points);
+        if (assignedUserId)
+            data.assignedUserId = Number(assignedUserId);
         const response = yield prisma.task.create({
-            data: {
-                title,
-                description,
-                status,
-                priority,
-                tags,
-                startDate,
-                dueDate,
-                points,
-                projectId,
-                authorUserId,
-                assignedUserId
-            }
+            data,
         });
         res.json(response);
     }

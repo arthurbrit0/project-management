@@ -14,7 +14,7 @@ export const getTasks = async (
         const response = await prisma.task.findMany({
             where: {
                 projectId: Number(projectId),
-            },
+            },  
             include: {
                 author: true,       // populando as informacoes do autor da task, o responsavel da task, os comentarios da task e dos anexos da task
                 assignee: true,
@@ -38,21 +38,24 @@ export const createTask = async (
     const { title, description, status, priority, tags, startDate, dueDate, points, projectId, authorUserId, assignedUserId } = req.body;
 
     try {
+        const data: any = {
+            title,
+            projectId: Number(projectId),
+            authorUserId: Number(authorUserId),
+        };
+
+        if (description) data.description = description;
+        if (status) data.status = status;
+        if (priority) data.priority = priority;
+        if (tags) data.tags = tags;
+        if (startDate) data.startDate = new Date(startDate);
+        if (dueDate) data.dueDate = new Date(dueDate);
+        if (points !== undefined) data.points = Number(points);
+        if (assignedUserId) data.assignedUserId = Number(assignedUserId);
+
         const response = await prisma.task.create({
-            data: {
-                title, 
-                description, 
-                status, 
-                priority, 
-                tags, 
-                startDate, 
-                dueDate, 
-                points, 
-                projectId, 
-                authorUserId, 
-                assignedUserId
-            }
-        })
+            data,
+        });
         res.json(response);
     } catch (error: any) {
         res.status(500).json({ error: `Erro ao criar a task. Erro: ${error}` });

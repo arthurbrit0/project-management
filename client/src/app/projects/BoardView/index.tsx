@@ -84,7 +84,6 @@ const TaskColumn = ({ status, tasks, moveTask, setIsModalNewTaskOpen }: TaskColu
                     <h3 className="flex items-center text-lg font-semibold dark:text-white">
                         {status === "To Do" ? "A fazer" : status === "Work In Progress" ? "Em andamento" :
                         status === "Under Review" ? "Sob Revisão" : "Completado"} {" "}
-                    
                         <span className="ml-2 inline-block rounded-full bg-gray-200 p-1 text-center text-sm leading-none dark:bg-dark-tertiary" style={{width:"1.5rem", height:"1.5rem"}}>
                             {tasksCount}
                         </span>
@@ -134,7 +133,11 @@ const Task = ({ task }: TaskProps) => {
             priority === "Low" ? "bg-blue-200 text-blue-700" : 
             "bg-gray-200 text-gray-700"
         }`}>
-            {priority}
+            {priority === "Urgent" ? "Urgente" : 
+            priority === "High" ? "Alta" : 
+            priority === "Medium" ? "Média" : 
+            priority === "Low" ? "Baixa" : 
+            "Backlog"}
         </div>);
 
     return (

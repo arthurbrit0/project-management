@@ -76,7 +76,7 @@ const TimelineView = ({id, setIsModalNewTaskOpen}: Props) => {
             </div>
             <div className="px-4 pb-5 pt-1">
                 <button 
-                    className="flex items-center rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-700"
+                    className="flex items-center rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-700 hover:scale-105 transition-all"
                     onClick={() => setIsModalNewTaskOpen(true)}
                 >
                     Adicionar Nova Task
