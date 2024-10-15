@@ -12,6 +12,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const projectRoutes_1 = __importDefault(require("./routes/projectRoutes"));
 const taskRoutes_1 = __importDefault(require("./routes/taskRoutes"));
 const searchRoutes_1 = __importDefault(require("./routes/searchRoutes"));
+const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 console.log("Teste");
 /* IMPORTS DE ROTA */
 /* CONFIG */
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
 app.use('/projects', projectRoutes_1.default);
 app.use('/tasks', taskRoutes_1.default);
 app.use('/search', searchRoutes_1.default);
+app.use('/users', userRoutes_1.default);
 /* INICIALIZAÇÃO DO SERVIDOR */
 const port = process.env.PORT || 3000; // definindo a porta do servidor
 app.listen(port, () => {

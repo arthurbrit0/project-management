@@ -76,9 +76,9 @@ export interface SearchResults {
 /* criacao de instancia da api */
 
 export const api = createApi({
-    baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),        // definimos uma url base para as requisicoes, que é uma variavel de ambiente
+    baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),   // definimos uma url base para as requisicoes, que é uma variavel de ambiente
     reducerPath: "api",                                                             // definimos o nome do slice no estado global, e os acessamos com state.api
-    tagTypes: ["Projects", "Tasks"],                                                // lista de tags que serão usadas nas requisicoes para invalidar/atualizar o cache de acordo com a tag usada na requisicao  
+    tagTypes: ["Projects", "Tasks", "Users"],                                       // lista de tags que serão usadas nas requisicoes para invalidar/atualizar o cache de acordo com a tag usada na requisicao  
     endpoints: (build) => ({                                                        // criando nossos endpoints
         getProjects: build.query<Project[], void>({                                 // a função getProjects recebe como parametro void e retorna uma lista de Projetos                   
             query: () => "projects",                                                // a query é a url que será acessada para pegar os projetos. nesse caso, será /projects
@@ -119,9 +119,21 @@ export const api = createApi({
         }),
         search: build.query<SearchResults, { query: string }>({                     // a função search é uma query que recebe um objeto com a query de busca e retorna um objeto com os resultados da busca
             query: ({ query }) => `search?query=${query}`,                          // a rota que será acessada para fazer a busca é /search?query=${query}, passando a query que queremos buscar como
-        })                 
+        }),
+        getUsers: build.query<User[], void>({
+            query: () => "users",
+            providesTags: ["Users"],
+        }),                 
     }),
 });
 
 
-export const {useCreateProjectMutation, useGetProjectsQuery, useCreateTaskMutation, useGetTasksQuery, useUpdateTaskStatusMutation, useSearchQuery} = api;                                                          
+export const {
+    useCreateProjectMutation, 
+    useGetProjectsQuery, 
+    useCreateTaskMutation, 
+    useGetTasksQuery, 
+    useUpdateTaskStatusMutation, 
+    useSearchQuery,
+    useGetUsersQuery,
+} = api;                                                          

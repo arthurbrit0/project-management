@@ -61,7 +61,7 @@ function Sidebar() {
                     <SidebarLinks href={"/search"} icon={Search} label="Pesquisa" />
                     <SidebarLinks href={"/configuracoes"} icon={Settings} label="Configurações" />
                     <SidebarLinks href={"/perfil"} icon={User} label="Perfil" />
-                    <SidebarLinks href={"/usuarios"} icon={Users} label="Usuários" />
+                    <SidebarLinks href={"/users"} icon={Users} label="Usuários" />
                 </nav>
                 <button onClick={() => setShowProjects((prev) => !prev)} className="flex w-full items-center justify-between px-8 py-3 text-gray-600">
                     <span className="">Projetos</span>
