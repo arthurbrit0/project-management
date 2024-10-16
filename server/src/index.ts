@@ -42,8 +42,8 @@ app.use('/teams', teamRoutes)
 
 /* INICIALIZAÇÃO DO SERVIDOR */
 
-const port = process.env.PORT || 3000;                                  // definindo a porta do servidor
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`)                    // iniciando o servidor
+const port = Number(process.env.PORT) || 3000;                                  // definindo a porta do servidor
+app.listen(port, "0.0.0.0", () => {
+    console.log(`Servidor rodando na porta ${port}`)                            // iniciando o servidor
 })
 
