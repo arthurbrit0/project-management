@@ -26,7 +26,7 @@ const TaskCard = ({ task }: Props) => {
                 <div className="justify-center flex flex-wrap my-5">
                     {task.attachments && task.attachments.length > 0 && (
                         <Image 
-                            src={`/${task.attachments[0].fileURL}`} 
+                            src={`https://projectmanagement-s3-bucket.s3.amazonaws.com/${task.attachments[0].fileURL}`} 
                             alt={task.attachments[0].fileName} 
                             width={400} 
                             height={200} 
