@@ -1,5 +1,5 @@
 import Header from '@/src/components/Header';
-import { Calendar, Clock, Filter, Grid, Grid3X3, Grid3x3, List, PlusSquare, Share2, Table } from 'lucide-react';
+import { Clock, Filter, Grid3X3, Grid3x3, List, PlusSquare, Share2, Table } from 'lucide-react';
 import React, { useState } from 'react'
 import ModalNewProject from './ModalNewProject';
 

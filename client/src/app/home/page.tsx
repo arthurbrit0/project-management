@@ -1,6 +1,6 @@
 "use client";
 
-import { Priority, Project, Status, Tasks, useGetProjectsQuery, useGetTasksQuery } from '@/src/state/api';
+import { Priority, Project, Tasks, useGetProjectsQuery, useGetTasksQuery } from '@/src/state/api';
 import React, { useState } from 'react'
 import { useAppSelector } from '../redux';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';

@@ -9,7 +9,7 @@ type Props = {
 }
 
 const ModalNewProject = ({isOpen, onClose}: Props) => {
-    const [createProject, {isLoading, error}] = useCreateProjectMutation();
+    const [createProject, {isLoading}] = useCreateProjectMutation();
     const [projectName, setProjectName] = useState("")
     const [description, setDescription] = useState("")
     const [startDate, setStartDate] = useState("")

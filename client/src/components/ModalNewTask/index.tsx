@@ -1,4 +1,4 @@
-import { Priority, Status, useCreateProjectMutation, useCreateTaskMutation } from '@/src/state/api';
+import { Priority, Status, useCreateTaskMutation } from '@/src/state/api';
 import React, { useState } from 'react'
 import Modal from '@/src/components/Modal';
 import { formatISO } from 'date-fns';

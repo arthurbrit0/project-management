@@ -3,7 +3,6 @@
 import { AlertCircle, AlertOctagon, AlertTriangle, Briefcase, ChevronDown, ChevronUp, Home, Layers3, LockIcon, LucideIcon, Search, Settings, ShieldAlert, User, Users } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react'
-import { Icon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '../../app/redux';
 import Link from 'next/link';
