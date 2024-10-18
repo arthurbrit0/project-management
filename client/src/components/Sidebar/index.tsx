@@ -26,15 +26,15 @@ function Sidebar() {
       }
     }
 
-    if(!currentUser) return null;
-    const currentUserDetails = currentUser?.userDetails
-
     const { data: projects } = useGetProjectsQuery(); // usando o useProjectQuery para pegar os dados dos projetos
     console.log(projects)
 
+    
     const dispatch = useAppDispatch();    // importando o useAppDispatch, que é um useDispatch tipado, para despachar ações para o estado global, que ativará reducers para mudar o estado de alguma parte da aplicação
     const isSidebarCollapsed = useAppSelector((state) => state.global.isSidebarCollapsed);  // usando o useAppSelector, que é um useSelector tipado, para acessar o estado global e pegar o valor de isSidebarCollapsed
-
+    
+    if(!currentUser) return null;
+    const currentUserDetails = currentUser?.userDetails
     const sidebarClassNames = `fixed flex flex-col h-full justify-between shadow-xl overflow-x-hidden
         transition-all duration-500 ease-in-out h-[100%] z-40 dark:bg-black overflow-y-auto bg-white
         ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}
