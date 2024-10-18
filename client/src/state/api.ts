@@ -158,14 +158,16 @@ export const api = createApi({
             queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {  // o único parâmetro que será utilizado é o fetchWithBaseQuery
                 try {   
                     const user = await getCurrentUser();            // pegamos as informações do usuário logado, fornecidas pelo cognito
+                    console.log(user)
                     const session = await fetchAuthSession();       // pegamos a sessão de autenticacao do usuario logado, com informações como tokens e cognitoId do usuario
-
+                    console.log(session)
                     if (!session) throw new Error("Sessão não encontrada")  // se não encontrarmos a sessão, lançamos um erro
                     const {userSub} = session;                              // pegamos o cognitoId do usuario a partir da sessão de autenticacao
+                    console.log(userSub)
 
                     const userDetailsResponse = await fetchWithBQ(`users/${userSub}`);      // fazemos uma chamada a api para pegar os detalhes do usuario logado, passando o cognitoId do usuario como parametro
                     const userDetails = userDetailsResponse.data as User;                   // pegamos os dados do usuario da resposta da api, tipando-o como User
-
+                    console.log(userDetails)
                     return { data: {
                         user, userSub, userDetails                                          // em caso de tudo ocorrendo bem, retornamos as informações do usuario logado, seu cognitoId e seus dados da aplicacao, guardads no nosso banco de dados
                     }}

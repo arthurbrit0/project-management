@@ -21,12 +21,15 @@ export const getUser = async (
 ): Promise<void> => {
 
     const { cognitoId } = req.params;
+
+    console.log(cognitoId)
     try {
         const response = await prisma.user.findUnique({
             where: {
                 cognitoId: cognitoId,
             }
         })
+        console.log(response)
         res.json(response);
     
     } catch (error: any) {
