@@ -8,12 +8,26 @@ import { useAppDispatch, useAppSelector } from '../../app/redux';
 import Link from 'next/link';
 import { setIsSidebarCollapsed } from '@/src/state';
 import { X } from 'lucide-react';
-import { useGetProjectsQuery } from '@/src/state/api';
+import { useGetProjectsQuery, useGetAuthUserQuery } from '@/src/state/api';
+import { signOut } from 'aws-amplify/auth';
 
 function Sidebar() {
 
     const [showProjects, setShowProjects] = useState(true);
     const [showPriority, setShowPriority] = useState(true);
+
+    const { data: currentUser } = useGetAuthUserQuery({});
+
+    const handleSignout = async () => {
+      try {
+        await signOut();
+      } catch (error) {
+        console.error("Erro ao fazer logout", error);
+      }
+    }
+
+    if(!currentUser) return null;
+    const currentUserDetails = currentUser?.userDetails
 
     const { data: projects } = useGetProjectsQuery(); // usando o useProjectQuery para pegar os dados dos projetos
     console.log(projects)
@@ -88,6 +102,27 @@ function Sidebar() {
                       <SidebarLinks href={"/priority/backlog"} icon={Layers3} label="Backlog" />  
                     </>
                 )}
+            </div>
+            <div className="z-10 mt-32 flex w-full flex-col items-center gap-4 bg-white px-8 py-4 dark:bg-black md:hidden">
+                <div className="flex w-full items-center">
+                    <div className="align-center flex h-9 w-9 justify-center">
+                    {!!currentUserDetails?.profilePictureUrl ? (
+                        <Image 
+                        src={`https://projectmanagement-s3-bucket.s3.amazonaws.com${currentUserDetails?.profilePictureUrl}`} 
+                        alt={currentUserDetails?.username || "Foto de perfil do usuário"}  
+                        className="rounded-full h-full object-cover" 
+                        width={100} 
+                        height={50} 
+                        />
+                    ) : <User className="h-6 w-6 cursor-pointer self-center rounded-full dark:text-white" />}
+                    </div>
+                    <span className="mx-3 text-gray-800 dark:text-white">
+                    {currentUserDetails?.username}
+                    </span>
+                    <button className="self-start rounded bg-blue-400 px-4 py-2 text-xs font-bold text-white hover:bg-blue-500 md:block" onClick={handleSignout}>
+                    Logout
+                    </button>
+                </div>
             </div>
         </div>
   )

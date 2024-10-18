@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { fetchAuthSession, getCurrentUser } from 'aws-amplify/auth';
 
 // usando o createApi e o fetchBaseQuery do RTK Query para criar uma instância da API
 // que pode ser usada para fazer solicitações de API
@@ -83,7 +84,19 @@ export interface SearchResults {
 /* criacao de instancia da api */
 
 export const api = createApi({
-    baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),   // definimos uma url base para as requisicoes, que é uma variavel de ambiente
+    baseQuery: fetchBaseQuery({
+         baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+         prepareHeaders: async (headers) => {
+            const session = await fetchAuthSession();
+            const { accessToken } = session.tokens ?? {};
+            
+            if (accessToken) {
+                headers.set("Authorization", `Bearer ${accessToken}`);
+            }
+
+            return headers;
+         }                                                                          // pegamos a sessão de autenticação do usuário logado
+    }),                                                                             // definimos uma url base para as requisicoes, que é uma variavel de ambiente
     reducerPath: "api",                                                             // definimos o nome do slice no estado global, e os acessamos com state.api
     tagTypes: ["Projects", "Tasks", "Users","Teams"],                               // lista de tags que serão usadas nas requisicoes para invalidar/atualizar o cache de acordo com a tag usada na requisicao  
     endpoints: (build) => ({                                                        // criando nossos endpoints
@@ -140,7 +153,27 @@ export const api = createApi({
             providesTags: (result, error, userId) => (
                 result ? result.map(({ id }) => ({type: "Tasks", id})) : [{type: "Tasks", id: userId}]
             )
-        })  
+        }),
+        getAuthUser: build.query({
+            queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {  // o único parâmetro que será utilizado é o fetchWithBaseQuery
+                try {   
+                    const user = await getCurrentUser();            // pegamos as informações do usuário logado, fornecidas pelo cognito
+                    const session = await fetchAuthSession();       // pegamos a sessão de autenticacao do usuario logado, com informações como tokens e cognitoId do usuario
+
+                    if (!session) throw new Error("Sessão não encontrada")  // se não encontrarmos a sessão, lançamos um erro
+                    const {userSub} = session;                              // pegamos o cognitoId do usuario a partir da sessão de autenticacao
+
+                    const userDetailsResponse = await fetchWithBQ(`users/${userSub}`);      // fazemos uma chamada a api para pegar os detalhes do usuario logado, passando o cognitoId do usuario como parametro
+                    const userDetails = userDetailsResponse.data as User;                   // pegamos os dados do usuario da resposta da api, tipando-o como User
+
+                    return { data: {
+                        user, userSub, userDetails                                          // em caso de tudo ocorrendo bem, retornamos as informações do usuario logado, seu cognitoId e seus dados da aplicacao, guardads no nosso banco de dados
+                    }}
+                } catch (error: any) {
+                    return { error: error.message || "Não foi possível encontrar os dados do usuário"}  // se não, retornamos um erro
+                }
+            }
+        }),
     }),
 });
 
@@ -154,5 +187,6 @@ export const {
     useSearchQuery,
     useGetUsersQuery,
     useGetTeamsQuery,
-    useGetTasksUserQuery
+    useGetTasksUserQuery,
+    useGetAuthUserQuery,
 } = api;                                                          
