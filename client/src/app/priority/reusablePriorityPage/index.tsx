@@ -83,7 +83,9 @@ const localeText = {
 const ReusablePriorityPage = ({priority}: Props) => {
 
   const { data: currentUser } = useGetAuthUserQuery({});
+  console.log(currentUser)
   const userId = currentUser?.userDetails?.userId ?? null;
+  console.log(userId)
 
     const [view, setView] = useState('list')
     const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false)
